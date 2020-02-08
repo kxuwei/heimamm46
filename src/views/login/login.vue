@@ -17,13 +17,24 @@
             v-model="input2"
             class="powss"
           ></el-input>
-          <el-input
-            placeholder="请输入验证码"
-            prefix-icon="el-icon-key"
-            v-model="input3"
-            class="authcode"
-          ></el-input>
-          <el-checkbox v-model="checked" class="checkbox">
+          <el-row>
+            <el-col :span="17">
+              <div class="grid-content bg-purple">
+                <el-input
+                  placeholder="请输入验证码"
+                  prefix-icon="el-icon-key"
+                  v-model="input3"
+                  class="authcode"
+                ></el-input>
+              </div>
+            </el-col>
+            <el-col :span="7">
+              <div class="grid-content bg-purple-light">
+                <img src="../../assets/login_captcha.png" class="image" alt />
+              </div>
+            </el-col>
+          </el-row>
+          <el-checkbox v-model="checked">
             我已阅读并同意
             <el-link type="primary">用户协议</el-link>和
             <el-link type="primary">隐私条款</el-link>
@@ -65,19 +76,21 @@ export default {
     background-color: #f5f5f5;
     .topbox {
       margin-left: 48px;
+      display: flex;
+      align-items: center;
+      margin-top: 44px;
       img {
-        margin-top: 50px;
         margin-right: 16px;
       }
       .top-a {
-        margin-top: 48px;
         font-size: 24px;
         font-family: SourceHanSansCN;
         font-weight: 400;
         color: rgba(12, 12, 12, 1);
       }
       .top-b {
-        margin: 44px 13px 0px 14px;
+        margin-left: 14px;
+        margin-right: 13px;
         width: 1px;
         height: 28px;
         background: rgba(199, 199, 199, 1);
@@ -88,7 +101,6 @@ export default {
         font-family: PingFangSC;
         font-weight: 400;
         color: rgba(12, 12, 12, 1);
-        margin-top: 47px;
       }
     }
     input {
@@ -99,7 +111,6 @@ export default {
       width: 394px;
       height: 45px;
       background: rgba(255, 255, 255, 1);
-  
       border-radius: 4px;
       margin: 29px 41px 25px 43px;
     }
@@ -107,24 +118,25 @@ export default {
       width: 393px;
       height: 43px;
       background: rgba(255, 255, 255, 1);
-   
       border-radius: 4px;
       margin: 0px 41px 25px 43px;
     }
-    .authcode {
-      width: 284px;
-      height: 44px;
-      background: rgba(255, 255, 255, 1);
-      // border: 1px solid rgba(204, 207, 213, 1);
-      border-radius: 4px;
-      margin: 1px 152px 32px 42px;
-    }
-    .checkbox {
-      width: 14px;
-      height: 14px;
-      border-radius: 3px;
-      font-size: 14px;
+    .el-row{
+      margin: 0px 41px 32px 42px;
+      .el-input__inner,
+      .image {
+        width: 100%;
+        height: 44px;
+      }
+    }  
+    .el-checkbox {
+      display: flex;
       margin-left: 44px;
+      align-items: center;
+      .el-checkbox__label{
+        display: flex;
+        align-items: center;
+      }
     }
     .login {
       margin: 28px 42px 26px 42px;
