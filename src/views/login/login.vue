@@ -99,7 +99,7 @@ export default {
       width: 394px;
       height: 45px;
       background: rgba(255, 255, 255, 1);
-      // border: 1px solid rgba(204, 207, 213, 1);
+  
       border-radius: 4px;
       margin: 29px 41px 25px 43px;
     }
@@ -107,7 +107,7 @@ export default {
       width: 393px;
       height: 43px;
       background: rgba(255, 255, 255, 1);
-      // border: 1px solid rgba(204, 207, 213, 1);
+   
       border-radius: 4px;
       margin: 0px 41px 25px 43px;
     }
