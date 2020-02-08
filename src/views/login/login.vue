@@ -8,39 +8,60 @@
           <span class="top-b"></span>
           <span class="top-c">用户登陆</span>
         </div>
-        <div class="reader">
-          <el-input placeholder="请输入内容" prefix-icon="el-icon-user" v-model="input1" class="content"></el-input>
-          <el-input
-            placeholder="请输入密码"
-            prefix-icon="el-icon-lock"
-            show-password
-            v-model="input2"
-            class="powss"
-          ></el-input>
-          <el-row>
-            <el-col :span="17">
-              <div class="grid-content bg-purple">
-                <el-input
-                  placeholder="请输入验证码"
-                  prefix-icon="el-icon-key"
-                  v-model="input3"
-                  class="authcode"
-                ></el-input>
-              </div>
-            </el-col>
-            <el-col :span="7">
-              <div class="grid-content bg-purple-light">
-                <img src="../../assets/login_captcha.png" class="image" alt />
-              </div>
-            </el-col>
-          </el-row>
-          <el-checkbox v-model="checked">
-            我已阅读并同意
-            <el-link type="primary">用户协议</el-link>和
-            <el-link type="primary">隐私条款</el-link>
-          </el-checkbox>
-          <el-button type="primary" class="login">登录</el-button>
-          <el-button type="primary" class="login-a">注册</el-button>
+        <div>
+          <el-form
+            :model="ruleForm"
+            :rules="rules"
+            ref="ruleForm"
+            label-width="43px" 
+            class="demo-ruleForm"
+          >
+            <el-form-item prop="name">
+              <el-input
+                placeholder="请输入用户名称"
+                prefix-icon="el-icon-user"
+                v-model="ruleForm.name"
+                class="content"
+              ></el-input>
+            </el-form-item>
+            <el-form-item prop="powss">
+              <el-input
+                placeholder="请输入密码"
+                prefix-icon="el-icon-lock"
+                show-password
+                v-model="ruleForm.powss"
+                class="powss"
+              ></el-input>
+            </el-form-item>
+            <el-form-item prop="code">
+              <el-row>
+                <el-col :span="17">
+                  <div class="grid-content bg-purple">
+                    <el-input
+                      placeholder="请输入验证码"
+                      prefix-icon="el-icon-key"
+                      v-model="ruleForm.code"
+                      class="authcode"
+                    ></el-input>
+                  </div>
+                </el-col>
+                <el-col :span="7">
+                  <div class="grid-content bg-purple-light">
+                    <img src="../../assets/login_captcha.png" class="image" alt />
+                  </div>
+                </el-col>
+              </el-row>
+            </el-form-item>
+            <el-form-item prop="type">
+              <el-checkbox v-model="ruleForm.type" name="type">
+                我已阅读并同意
+                <el-link type="primary">用户协议</el-link>和
+                <el-link type="primary">隐私条款</el-link>
+              </el-checkbox>
+            </el-form-item>
+            <el-button type="primary" class="login">登录</el-button>
+            <el-button type="primary" class="login-a">注册</el-button>
+          </el-form>
         </div>
       </div>
     </div>
@@ -52,9 +73,29 @@ export default {
   name: "login",
   data() {
     return {
-      input1: "",
-      input2: "",
-      input3: ""
+      ruleForm: {
+        name: "",
+        type: [],
+        powss: "",
+        code: ""
+      },
+      rules: {
+        name: [
+          { required: true, message: "用户名称不能为空", trigger: "blur" },
+          { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" }
+        ],
+        powss: [
+          { required: true, message: "密码不能为空", trigger: "blur" },
+          { min: 6, max: 12, message: "长度在 6到 12 个字符", trigger: "blur" }
+        ],
+        code: [
+          { required: true, message: "验证码不能为空", trigger: "blur" },
+          { min: 4, max: 4, message: "长度在 4 个字符", trigger: "blur" }
+        ],
+        type: [
+           { type: 'array', required: true, message: '请勾选', trigger: 'change' }
+         ],
+      }
     };
   }
 };
@@ -112,34 +153,40 @@ export default {
       height: 45px;
       background: rgba(255, 255, 255, 1);
       border-radius: 4px;
-      margin: 29px 41px 25px 43px;
+      margin-top: 29px;
+      margin-right: 41px;
     }
     .powss {
       width: 393px;
       height: 43px;
       background: rgba(255, 255, 255, 1);
       border-radius: 4px;
-      margin: 0px 41px 25px 43px;
+      margin-top: 13px;
+      margin-right: 41px;
     }
-    .el-row{
-      margin: 0px 41px 32px 42px;
+    .el-row {
+      margin-top:14px;
+      margin-right: 41px;
       .el-input__inner,
       .image {
         width: 100%;
         height: 44px;
       }
-    }  
+    }
+    .el-form-item__content{
+      line-height: 0;
+    }
     .el-checkbox {
       display: flex;
-      margin-left: 44px;
       align-items: center;
-      .el-checkbox__label{
+      margin-top: 20px;
+      .el-checkbox__label {
         display: flex;
         align-items: center;
       }
     }
     .login {
-      margin: 28px 42px 26px 42px;
+      margin: 6px 42px 26px 42px;
       width: 394px;
       height: 40px;
       background: rgba(20, 147, 250, 1);
@@ -149,11 +196,7 @@ export default {
       margin: 0px 42px 26px 42px;
       width: 394px;
       height: 40px;
-      background: rgba(20, 147, 250, 1);
-      border-radius: 4px;
-      font-size: 16px;
-      font-family: Microsoft YaHei;
-      font-weight: 400;
+     
     }
   }
 }
