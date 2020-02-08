@@ -1,5 +1,6 @@
 <template>
   <div class="box">
+    <register ref="register"></register>
     <div class="leftBox">
       <div class="left-top">
         <div class="topbox">
@@ -59,8 +60,8 @@
                 <el-link type="primary">隐私条款</el-link>
               </el-checkbox>
             </el-form-item>
-            <el-button type="primary" class="login">登录</el-button>
-            <el-button type="primary" class="login-a">注册</el-button>
+            <el-button type="primary" class="login" @click="submitForm('ruleForm')">登录</el-button>
+            <el-button type="primary" class="login-a" @click="visibli">注册</el-button>
           </el-form>
         </div>
       </div>
@@ -69,6 +70,7 @@
   </div>
 </template>
 <script>
+import register from '../components/register'
 export default {
   name: "login",
   data() {
@@ -97,7 +99,25 @@ export default {
          ],
       }
     };
-  }
+  },
+  components:{
+    register,
+  },
+  methods: {
+     submitForm(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            this.$message.success('验证成功')
+          } else {
+            this.$message.error('验证失败')
+            return false;
+          }
+        });
+      },
+      visibli(){
+        this.$refs.register.dialogFormVisible = true
+      }
+  },
 };
 </script>
 <style lang="less">
