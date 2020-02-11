@@ -53,8 +53,8 @@
                 </el-col>
               </el-row>
             </el-form-item>
-            <el-form-item prop="type">
-              <el-checkbox v-model="ruleForm.type" name="type">
+            <el-form-item prop="typecheck">
+              <el-checkbox v-model="ruleForm.typecheck" name="type">
                 我已阅读并同意
                 <el-link type="primary">用户协议</el-link>和
                 <el-link type="primary">隐私条款</el-link>
@@ -72,6 +72,8 @@
 <script>
 import register from '../components/register'
 import {checkphone} from '@/untils/validators.js'
+import {login} from "@/abi/login.js"
+import {setToken} from '@/untils/token.js'
 export default {
   name: "login",
   data() {
@@ -79,9 +81,9 @@ export default {
       codeurl:process.env.VUE_APP_URL + "/captcha?type=login",
       ruleForm: {
         phone: "",
-        type: [],
         powss: "",
-        code: ""
+        code: "",
+        typecheck:false
       },
       rules: {
         phone: [
@@ -90,15 +92,13 @@ export default {
         ],
         powss: [
           { required: true, message: "密码不能为空", trigger: "blur" },
-          { min: 6, max: 12, message: "长度在 6到 12 个字符", trigger: "blur" }
+          { min: 6, max: 12, message: "长度在 6到 12 个字符", trigger: "change" }
         ],
         code: [
           { required: true, message: "验证码不能为空", trigger: "blur" },
           { min: 4, max: 4, message: "长度在 4 个字符", trigger: "blur" }
         ],
-        type: [
-           { type: 'array', required: true, message: '请勾选', trigger: 'change' }
-         ],
+        
       }
     };
   },
@@ -109,7 +109,24 @@ export default {
      submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            this.$message.success('验证成功')
+            if (this.ruleForm.typecheck!=true) {
+             return this.$message.warning('请勾选用户协议')
+            }
+            login({
+              phone:this.ruleForm.phone,
+              password:this.ruleForm.powss,
+              code:this.ruleForm.code
+            }).then(res=>{
+              if (res.data.code==200) {
+                this.$message.success('登录成功')
+                window.localStorage.setItem('heimammToken',res.data.data.token)
+                this.$router.push('/index')
+                setToken(res.data.data.token)
+              }else if (res.data.code==202) {
+                window.console.log(res);
+                this.$message.error(res.data.message)
+              }
+            })
             
           } else {
             this.$message.error('验证失败')
