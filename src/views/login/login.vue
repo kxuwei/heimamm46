@@ -17,11 +17,11 @@
             label-width="43px" 
             class="demo-ruleForm"
           >
-            <el-form-item prop="name">
+            <el-form-item prop="phone">
               <el-input
-                placeholder="请输入用户名称"
+                placeholder="请输入手机号"
                 prefix-icon="el-icon-user"
-                v-model="ruleForm.name"
+                v-model="ruleForm.phone"
                 class="content"
               ></el-input>
             </el-form-item>
@@ -48,7 +48,7 @@
                 </el-col>
                 <el-col :span="7">
                   <div class="grid-content bg-purple-light">
-                    <img src="../../assets/login_captcha.png" class="image" alt />
+                    <img @click="codeclick" :src="codeurl" class="image" alt />
                   </div>
                 </el-col>
               </el-row>
@@ -71,20 +71,22 @@
 </template>
 <script>
 import register from '../components/register'
+import {checkphone} from '@/untils/validators.js'
 export default {
   name: "login",
   data() {
     return {
+      codeurl:process.env.VUE_APP_URL + "/captcha?type=login",
       ruleForm: {
-        name: "",
+        phone: "",
         type: [],
         powss: "",
         code: ""
       },
       rules: {
-        name: [
-          { required: true, message: "用户名称不能为空", trigger: "blur" },
-          { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" }
+        phone: [
+          { required: true, message: "手机号不能为空", trigger: "blur" },
+          { validator: checkphone, trigger: "blur" }
         ],
         powss: [
           { required: true, message: "密码不能为空", trigger: "blur" },
@@ -108,6 +110,7 @@ export default {
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.$message.success('验证成功')
+            
           } else {
             this.$message.error('验证失败')
             return false;
@@ -116,7 +119,10 @@ export default {
       },
       visibli(){
         this.$refs.register.dialogFormVisible = true
-      }
+      },
+      codeclick(){
+        this.codeurl= process.env.VUE_APP_URL + "/captcha?type=login&t=" + Date.now();
+      },
   },
 };
 </script>

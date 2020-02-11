@@ -7,11 +7,11 @@ Vue.use(VueRouter)
 const router = new VueRouter({
 routes: [
  {
-path: '/login',
+path: '/',
 component:login
  },
  {
-path: '/',
+path: '/a',
 component:register
  }
   ]
