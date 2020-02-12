@@ -119,7 +119,7 @@ export default {
             }).then(res=>{
               if (res.data.code==200) {
                 this.$message.success('登录成功')
-                window.localStorage.setItem('heimammToken',res.data.data.token)
+                // window.localStorage.setItem('heimammToken',res.data.data.token)
                 this.$router.push('/index')
                 setToken(res.data.data.token)
               }else if (res.data.code==202) {

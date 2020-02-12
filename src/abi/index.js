@@ -15,7 +15,7 @@ export function info() {
 }
 export function logout() {
     return indexRequst({
-        url:'//logout',
+        url:'/logout',
         methods: 'get',
         headers:{
             token:getToken()
